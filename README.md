@@ -16,7 +16,11 @@ Dataset:
 
 KITTI Odometry Sequence 05
 
-![SLAM Demo](assets/demo.gif)
+## Visual Demonstration
+
+### Trajectory Evolution
+
+![Trajectory Demo](images/slam_trajectory_demo.gif)
 
 ## Overview
 
@@ -200,6 +204,7 @@ combining descriptor matching with geometric verification.
 - 123 geometrically verified matches
 - 66.7% outlier rejection rate
 
+![Feature Matching Demo](images/slam_feature_matching_demo.gif)
 ![Geometrically Verified Matches](docs/images/step3_geometric_filtering.png)
 
 Geometric filtering using RANSAC significantly improved match quality
@@ -288,6 +293,7 @@ Built and evaluated a loop closure detection system on KITTI Sequence 05.
 | Estimated Trajectory Length | 1,419.0 m |
 | Ground Truth Trajectory Length | 1,042.4 m |
 
+![Loop Closure Demo](images/slam_loop_closure_demo.gif)
 ![KITTI Loop Closure Results](docs/images/step6_loop_closure_kitti.png)
 
 This stage introduced place recognition into the SLAM pipeline, allowing the system to detect when the camera revisited previously seen locations.
@@ -333,54 +339,202 @@ This stage added global trajectory correction using pose graph optimization. Loo
 
 ### Implemented
 
-- Keyframe selection logic
-- Performance monitoring
-- Map serialization
-- Map loading from disk
-- Configuration-driven SLAM system design
-- Initial relocalization system integration
+- Intelligent keyframe selection
+- Real-time performance monitoring
+- Adaptive feature parameter tracking
+- Relocalization system initialization
+- Map serialization and persistence
+- Multi-threading framework
+- System state management
+- Logging and shutdown handling
 
 ### Result
 
-Validated several production-oriented SLAM components independently.
+Validated the advanced SLAM infrastructure layer with independent unit tests and an integrated system demonstration.
 
 | Component | Result |
 |--------|--------|
 | Keyframe Selection | Passed |
 | Performance Monitoring | Passed |
 | Map Serialization | Passed |
-| Map Save/Load | Verified |
-| Test Map | 1 keyframe, 1 landmark |
-| Runtime FPS | 20–23 FPS |
+| Relocalization Initialization | Passed |
+| Frames Processed | 10 |
+| Keyframes Created | 9 |
+| Tracking State | Good |
+| Performance Level | Excellent |
+| Features per Frame | 1,000 |
 
-This stage focused on moving the project beyond the core SLAM algorithm and toward production-style system infrastructure. Keyframe selection, runtime monitoring, configuration management, and map persistence were implemented and tested.
-
-> Development note: the full advanced SLAM system demo encountered a configuration bug related to the relocalization module. The working components were validated independently, while full relocalization integration remained future work.
-
----
-
-## Step 9 — Advanced SLAM Infrastructure
-
-Implemented:
-- Keyframe management
-- Performance monitoring
-- Map serialization
-- Multi-threading
-
-Result:
-Production-grade SLAM framework
+This stage transformed the project from a core SLAM algorithm into a more production-oriented system with keyframe management, persistence, monitoring, relocalization support, and robust system lifecycle handling.
 
 ---
 
-## Step 10 — Relocalization & System Integration
+## Step 9: Evaluation & Benchmarking
 
-Implemented:
-- Tracking recovery
-- Global system integration
-- End-to-end testing
+### Overview
 
-Result:
-Complete monocular SLAM system
+The final stage of the project focused on evaluating the Visual SLAM system using standard benchmarking metrics and real-world KITTI odometry data. The objective was to quantify trajectory accuracy, loop closure effectiveness, runtime performance, and the impact of pose graph optimization on accumulated drift.
+
+---
+
+### Evaluation Metrics
+
+The following metrics were used throughout the evaluation process:
+
+#### Trajectory Accuracy
+
+- **Absolute Trajectory Error (ATE)** – Measures the global difference between the estimated trajectory and ground truth trajectory.
+- **Trajectory Drift** – Measures accumulated positional error over long sequences.
+- **Loop Closure Improvement** – Quantifies drift reduction after applying pose graph optimization.
+
+#### Runtime Performance
+
+- Average processing time per frame
+- Average frames processed per second (FPS)
+- Feature detection time
+- Pose estimation time
+- Loop detection time
+
+#### Loop Closure Metrics
+
+- Total loop closures detected
+- Geometric verification inlier counts
+- Pose graph optimization events
+
+---
+
+### KITTI Sequence Evaluation
+
+The system was evaluated on KITTI Odometry Sequence 05 using 1,400 frames.
+
+| Metric | Result |
+|----------|----------|
+| Frames Processed | 1,400 |
+| Loop Closures Detected | 54 |
+| Average FPS | 33.05 |
+| Processing Time | 42.37 s |
+| Pose Graph Optimizations | 1 |
+| Final Pose Graph Error | 0.000 |
+
+---
+
+### Trajectory Improvement Analysis
+
+Pose graph optimization significantly reduced accumulated trajectory drift.
+
+| Metric | Before Optimization | After Optimization |
+|----------|----------|----------|
+| Drift | 215.1 m | 163.5 m |
+| Improvement | — | 24.0% |
+
+The optimized trajectory more closely follows the expected path and demonstrates the benefit of integrating loop closure constraints into the pose graph.
+
+---
+
+### Trajectory Comparison
+
+The figure below compares:
+
+- Ground truth trajectory (KITTI)
+- Original SLAM trajectory
+- Optimized SLAM trajectory after pose graph optimization
+
+![KITTI Trajectory Evaluation](images/step9_trajectory_evaluation.png)
+
+**Observations**
+
+- The optimized trajectory remains substantially closer to the expected path.
+- Loop closure constraints reduce accumulated drift over long distances.
+- Large-scale trajectory structure is preserved after optimization.
+- The system successfully detects revisited locations and incorporates them into the global map estimate.
+
+---
+
+### Loop Closure Performance
+
+The loop closure subsystem demonstrated reliable place recognition throughout the sequence.
+
+| Metric | Value |
+|----------|----------|
+| Visual Vocabulary Size | 1,000 Words |
+| Loop Closures Detected | 54 |
+| Maximum Verified Inliers | 50 |
+| Similarity Threshold | 0.50 |
+
+Loop closures were detected using a Bag-of-Words visual vocabulary and verified geometrically before insertion into the pose graph.
+
+---
+
+### Runtime Analysis
+
+Average processing times remained suitable for near real-time operation.
+
+| Pipeline Stage | Average Time |
+|----------|----------|
+| Feature Detection | 6.4 ms |
+| Pose Estimation | 5.8 ms |
+| Loop Detection | 13.9 ms |
+| Total Per Frame | 27.0 ms |
+
+This corresponds to approximately:
+
+```text
+1000 / 27.0 ≈ 37 FPS
+```
+
+Observed end-to-end throughput during KITTI testing averaged approximately **33 FPS**, demonstrating near real-time performance.
+
+---
+
+### Key Findings
+
+- Successfully processed 1,400 KITTI frames.
+- Detected 54 loop closures across the trajectory.
+- Reduced trajectory drift by 24.0% using pose graph optimization.
+- Achieved approximately 33 FPS processing speed.
+- Maintained stable operation across long-duration sequences.
+- Demonstrated a complete Visual SLAM pipeline including:
+  - Feature extraction
+  - Visual odometry
+  - Mapping
+  - Bundle adjustment
+  - Loop closure detection
+  - Pose graph optimization
+  - Keyframe management
+  - Relocalization framework
+
+---
+
+### Conclusion
+
+The evaluation demonstrates that the Visual SLAM system successfully performs large-scale monocular localization and mapping on real-world KITTI data. While trajectory accuracy remains below state-of-the-art systems such as ORB-SLAM3, the implementation successfully incorporates the core components of a modern SLAM pipeline and shows measurable improvements through loop closure detection and pose graph optimization.
+
+---
+
+## Step 10: Complete System Integration & Testing
+
+### Overview
+
+The final stage of the project focused on integrating all previously developed components into a complete end-to-end monocular Visual SLAM pipeline and validating system performance on real-world KITTI odometry data.
+
+At this point, the system included:
+
+- Feature Detection (ORB, SIFT, AKAZE)
+- Feature Matching and Outlier Rejection
+- Visual Odometry
+- Essential Matrix Pose Estimation
+- 3D Landmark Triangulation
+- Sparse Mapping
+- Bundle Adjustment
+- Bag-of-Visual-Words Place Recognition
+- Loop Closure Detection
+- Pose Graph Optimization
+- Keyframe Management
+- Relocalization Framework
+- Map Serialization
+- Performance Monitoring
+
+---
+
 
 
 
