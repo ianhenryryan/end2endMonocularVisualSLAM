@@ -449,7 +449,7 @@ The figure below compares:
 - Original SLAM trajectory
 - Optimized SLAM trajectory after pose graph optimization
 
-![KITTI Trajectory Evaluation](images/step9_trajectory_evaluation.png)
+![KITTI Trajectory Evaluation](images/step9_trajectory_comparison.png)
 
 **Observations**
 
