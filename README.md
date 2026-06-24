@@ -16,6 +16,8 @@ Dataset:
 
 KITTI Odometry Sequence 05
 
+---
+
 ## Visual Demonstration
 
 ### Trajectory Evolution
@@ -40,6 +42,7 @@ Major components include:
 - Pose graph optimization
 - Relocalization
 
+---
 
 ## Project Highlights
 
@@ -61,12 +64,13 @@ Major components include:
 
 ✓ Added advanced infrastructure including keyframe management, relocalization, map serialization, performance monitoring, and multi-threaded processing
 
+---
 
 ## Why I Built This
 
 After spending the previous year building neural networks from scratch and studying deep learning, I wanted to challenge myself with a computer vision problem that was well outside my comfort zone.
 
-Visual SLAM quickly became that challenge I decided to dived head first into.
+Visual SLAM quickly became that challenge, and I decided to dive head first into it.
 
 Rather than using an existing framework such as ORB-SLAM or RTAB-Map, I wanted to understand what was happening under the hood by learning and implementing the underlying mathematics and algorithms myself. This meant learning and building everything from feature matching and epipolar geometry to camera pose estimation, triangulation, loop closure detection, and pose graph optimization.
 
@@ -82,6 +86,8 @@ Through this project I developed a strong understanding of:
 - Bundle adjustment and nonlinear optimization
 - Loop closure detection and pose graph optimization
 - SE(3) Lie groups and Lie algebra for camera motion modeling
+
+---
 
 ## Built From Scratch
 
@@ -113,9 +119,12 @@ Implemented Components:
 
 ✓ Map serialization
 
+---
 
 ## System Architecture
 post the diagram png you goof.
+
+---
 
 ## Development Timeline
 
@@ -130,10 +139,12 @@ with each stage building on the previous subsystem.
 | 4 | Sparse Mapping & Triangulation |
 | 5 | Bundle Adjustment |
 | 6 | Loop Closure Detection |
-| 7 | Bag-of-Visual-Words (BoVW) Place Recognition |
-| 8 | Pose Graph Optimization |
-| 9 | Advanced SLAM Infrastructure |
-| 10 | Relocalization & System Integration |
+| 7 | Pose Graph Optimization |
+| 8 | Advanced SLAM Infrastructure |
+| 9 | Evaluation & Benchmarking |
+| 10 | Complete System Integration & Testing |
+
+---
 
 # Engineering Journey
 
@@ -157,7 +168,7 @@ Successfully loaded:
 - Camera intrinsic calibration matrix
 - Ground-truth vehicle trajectory
 
-![KITTI Dataset Analysis](docs/images/step1_dataset_analysis.png)
+![KITTI Dataset Analysis](images/step1_dataset_analysis.png)
 
 This stage established the data foundation required for
 feature extraction, visual odometry, mapping, and optimization.
@@ -178,7 +189,7 @@ feature extraction, visual odometry, mapping, and optimization.
 Detected and analyzed 1,000 visual features per frame using both
 ORB and SIFT descriptors.
 
-![Feature Detection Comparison](docs/images/step2_feature_comparison.png)
+![Feature Detection Comparison](images/step2_feature_comparison.png)
 
 Feature extraction forms the foundation of visual odometry by
 providing stable image correspondences between consecutive frames.
@@ -205,7 +216,7 @@ combining descriptor matching with geometric verification.
 - 66.7% outlier rejection rate
 
 ![Feature Matching Demo](images/slam_feature_matching_demo.gif)
-![Geometrically Verified Matches](docs/images/step3_geometric_filtering.png)
+![Geometrically Verified Matches](images/step3_geometric_filtering.png)
 
 Geometric filtering using RANSAC significantly improved match quality
 by removing inconsistent correspondences before pose estimation.
@@ -233,7 +244,7 @@ Estimated relative camera motion between KITTI frames using 123 geometrically fi
 - Average reprojection error: 0.319 pixels
 - Dominant motion direction recovered along the forward driving axis
 
-![Pose Estimation and Triangulation](docs/images/step4_pose_estimation.png)
+![Pose Estimation and Triangulation](images/step4_pose_estimation.png)
 
 This stage transformed 2D feature correspondences into relative camera motion and sparse 3D structure, forming the foundation for map building and bundle adjustment.
 
@@ -294,7 +305,7 @@ Built and evaluated a loop closure detection system on KITTI Sequence 05.
 | Ground Truth Trajectory Length | 1,042.4 m |
 
 ![Loop Closure Demo](images/slam_loop_closure_demo.gif)
-![KITTI Loop Closure Results](docs/images/step6_loop_closure_kitti.png)
+![KITTI Loop Closure Results](images/step6_loop_closure_kitti.png)
 
 This stage introduced place recognition into the SLAM pipeline, allowing the system to detect when the camera revisited previously seen locations.
 
@@ -329,7 +340,7 @@ Integrated pose graph optimization into the SLAM pipeline and evaluated it on KI
 | Optimized Trajectory Drift | 163.494 m |
 | Drift Reduction | 24.0% |
 
-![Pose Graph Optimization Results](docs/images/step7_pose_graph_optimization.png)
+![Pose Graph Optimization Results](images/step7_pose_graph_optimization.png)
 
 This stage added global trajectory correction using pose graph optimization. Loop closures provided long-range constraints, while odometry constraints preserved local motion consistency.
 
@@ -535,11 +546,45 @@ At this point, the system included:
 
 ---
 
+## References
 
+This project was heavily inspired by and developed utilizing the following resources:
 
+### Books
 
+- The SLAM Handbook: From Localization and Mapping to Spatial Intelligence
+- Multiple View Geometry in Computer Vision (Hartley & Zisserman)
 
+### Datasets
 
+- KITTI Vision Benchmark Suite
+
+### Libraries
+
+- OpenCV
+- NumPy
+- SciPy
+- Scikit-Learn
+- Matplotlib
+
+### Concepts Studied
+
+- Epipolar Geometry
+- Visual Odometry
+- Bundle Adjustment
+- Loop Closure Detection
+- Pose Graph Optimization
+- SE(3) Lie Groups and Lie Algebra
+
+---
+
+## Author
+
+Ian Ryan
+
+Computer Vision - Machine Learning - Robotics
+
+This project was developed as a self-directed exploration of modern Visual SLAM systems, geometric computer vision, and optimization-based state estimation.
 
 
 
