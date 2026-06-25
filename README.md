@@ -122,7 +122,7 @@ Implemented Components:
 ---
 
 ## System Architecture
-post the diagram png you goof.
+![System Architecture](images/system_architecture.png)
 
 ---
 
